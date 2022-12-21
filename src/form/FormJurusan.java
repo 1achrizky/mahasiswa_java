@@ -77,6 +77,11 @@ public final class FormJurusan extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblJurusan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblJurusanMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblJurusan);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -128,6 +133,12 @@ public final class FormJurusan extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Gagal simpan! "+e);
         }
     }//GEN-LAST:event_btnInsertActionPerformed
+
+    private void tblJurusanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblJurusanMouseClicked
+        int row = tblJurusan.getSelectedRow();
+        txtKode.setText(tblJurusan.getValueAt(row, 2).toString());
+        txtNama.setText(tblJurusan.getValueAt(row, 1).toString());
+    }//GEN-LAST:event_tblJurusanMouseClicked
 
     /**
      * @param args the command line arguments
