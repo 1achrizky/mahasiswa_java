@@ -37,11 +37,11 @@ public class Learn {
         return test_array().getValueAt(r, c);
     }
     
-    public static void main(String[] args) {        
-        Object ob = test_array().getValueAt(3, 2);
-        System.out.println("Value = "+ob);
-        System.out.println(ini(2,0));
-    }
+//    public static void main(String[] args) {        
+//        Object ob = test_array().getValueAt(3, 2);
+//        System.out.println("Value = "+ob);
+//        System.out.println(ini(2,0));
+//    }
 
     
 }

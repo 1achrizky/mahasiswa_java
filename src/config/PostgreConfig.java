@@ -49,13 +49,13 @@ public class PostgreConfig {
         return conn;
     }
     
-    public static void main(String[] args) {
-        PostgreConfig con = new PostgreConfig();
-        con.konek();
-        if(con.conn==null){
-            JOptionPane.showMessageDialog(null, "Gagal Connect DB.");
-        }else{
-            JOptionPane.showMessageDialog(null, "Berhasil Connect DB.");
-        }
-    }
+//    public static void main(String[] args) {
+//        PostgreConfig con = new PostgreConfig();
+//        con.konek();
+//        if(con.conn==null){
+//            JOptionPane.showMessageDialog(null, "Gagal Connect DB.");
+//        }else{
+//            JOptionPane.showMessageDialog(null, "Berhasil Connect DB.");
+//        }
+//    }
 }

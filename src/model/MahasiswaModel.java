@@ -117,20 +117,32 @@ public class MahasiswaModel {
         return index;
     }
     
-    public static void main(String[] args) {    
-////        TEST INSERT
-//        Object ob = insert_mhs(6,"Yossy", "");
-//        System.out.println("Value = "+ob);
-        
-        
-//      READ data
-        System.out.println("fx="+getAllData().getValueAt(3, 2));
-
-//      getArrIndex
-        String[] title = {"id","nim","nama","jurusan"};
-        System.err.println(String.valueOf(getArrIndex( title, "nama") ) );
-        
+    public static ResultSet selectDB(){
+        try{
+            Connection cn = (Connection)config.configDB();
+            String sql = "SELECT * from mahasiswa_m";
+            stmt = cn.createStatement();
+            rs = stmt.executeQuery(sql);
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+        return rs;
     }
+    
+//    public static void main(String[] args) {    
+//////        TEST INSERT
+////        Object ob = insert_mhs(6,"Yossy", "");
+////        System.out.println("Value = "+ob);
+//        
+//        
+////      READ data
+//        System.out.println("fx="+getAllData().getValueAt(3, 2));
+//
+////      getArrIndex
+//        String[] title = {"id","nim","nama","jurusan"};
+//        System.err.println(String.valueOf(getArrIndex( title, "nama") ) );
+//        
+//    }
 
     
     

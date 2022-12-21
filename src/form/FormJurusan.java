@@ -4,19 +4,36 @@
  */
 package form;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import model.JurusanModel;
 import javax.swing.JOptionPane;
-/**
- *
- * @author hp4420s
- */
-public class FormJurusan extends javax.swing.JFrame {
+import javax.swing.table.DefaultTableModel;
 
-    /**
-     * Creates new form FormJurusan
-     */
+
+public final class FormJurusan extends javax.swing.JFrame {
+
+    
+    public DefaultTableModel tmJurusan;
+    public void showTable(){
+        try {
+            tmJurusan = new DefaultTableModel(new String[]{"ID","NAMA JURUSAN","KODE JURUSAN"}, 0);
+            ResultSet rs;
+            rs = JurusanModel.selectDB();
+            while (rs.next()) {
+                tmJurusan.addRow(new Object[]{rs.getString("id"), rs.getString("namaJurusan"), rs.getString("kodeJurusan") });
+                System.out.println("table== "+rs.getString("namaJurusan"));
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        
+        tblJurusan.setModel(tmJurusan);
+    }
+    
     public FormJurusan() {
         initComponents();
+        showTable();
     }
 
     /**
@@ -34,7 +51,7 @@ public class FormJurusan extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         btnInsert = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblJurusan = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -49,7 +66,7 @@ public class FormJurusan extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblJurusan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -60,7 +77,7 @@ public class FormJurusan extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblJurusan);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -106,6 +123,7 @@ public class FormJurusan extends javax.swing.JFrame {
         try {
             JurusanModel.insert( txtKode.getText(), txtNama.getText());
 //            JOptionPane.showMessageDialog(null, "Penyimpanan Data Berhasil");
+            showTable();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Gagal simpan! "+e);
         }
@@ -151,7 +169,7 @@ public class FormJurusan extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tblJurusan;
     private javax.swing.JTextField txtKode;
     private javax.swing.JTextField txtNama;
     // End of variables declaration//GEN-END:variables
