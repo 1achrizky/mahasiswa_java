@@ -30,7 +30,8 @@ public class MahasiswaModel {
     public static DefaultTableModel getAllData(){
         try {
             Connection cn = (Connection)config.configDB();
-            String sql = "SELECT * FROM mahasiswa_m";
+            String sql = "SELECT mhs.*, j.namaJurusan FROM mahasiswa_m mhs"
+                    + " LEFT JOIN jurusan_m j ON j.kodeJurusan=mhs.jurusan";
 //            String sql = "insert into mahasiswa_m (nama) values ('"+txNama.getText()+"')";
 //            Statement stmt = cn.createStatement();
 //            rs = 
@@ -120,7 +121,8 @@ public class MahasiswaModel {
     public static ResultSet selectDB(){
         try{
             Connection cn = (Connection)config.configDB();
-            String sql = "SELECT * from mahasiswa_m";
+            String sql = "SELECT mhs.*, j.namaJurusan FROM mahasiswa_m mhs"
+                    + " LEFT JOIN jurusan_m j ON j.kodeJurusan=mhs.jurusan";
             stmt = cn.createStatement();
             rs = stmt.executeQuery(sql);
         }catch(SQLException e){

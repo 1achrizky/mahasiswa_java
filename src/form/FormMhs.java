@@ -23,13 +23,13 @@ public class FormMhs extends javax.swing.JFrame {
     public DefaultTableModel tmMhs;
     public void showTable(){
         try {
-            tmMhs = new DefaultTableModel(new String[]{"ID","NIM","NAMA","JURUSAN"}, 0);
+            tmMhs = new DefaultTableModel(new String[]{"ID","NIM","NAMA","KODE JURUSAN", "NAMA JURUSAN"}, 0);
             ResultSet rs;
             rs = MahasiswaModel.selectDB();
             while (rs.next()) {
                 tmMhs.addRow(new Object[]{
                     rs.getString("id"), rs.getString("nim"), 
-                    rs.getString("nama"), rs.getString("jurusan") });
+                    rs.getString("nama"), rs.getString("jurusan"), rs.getString("namaJurusan") });
                 System.out.println("table== "+rs.getString("nama"));
             }
         } catch (SQLException e) {
