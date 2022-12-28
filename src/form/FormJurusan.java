@@ -28,6 +28,10 @@ public final class FormJurusan extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e);
         }
         
+//        System.out.println(tblJurusan.getColumnModel().getColumn(0).getPreferredWidth());
+//        tblJurusan.getColumnModel().getColumn(0).setWidth(8);
+//        System.out.println(tblJurusan.getColumnModel().getColumn(0).getPreferredWidth());
+        
         tblJurusan.setModel(tmJurusan);
     }
     
@@ -52,6 +56,8 @@ public final class FormJurusan extends javax.swing.JFrame {
         btnInsert = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblJurusan = new javax.swing.JTable();
+        btnUpdate = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -84,24 +90,43 @@ public final class FormJurusan extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblJurusan);
 
+        btnUpdate.setText("Update");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+
+        btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnInsert, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtNama, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
-                            .addComponent(txtKode))))
-                .addContainerGap(13, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtNama, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+                                .addComponent(txtKode))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnUpdate)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnDelete)))))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -115,7 +140,10 @@ public final class FormJurusan extends javax.swing.JFrame {
                     .addComponent(txtKode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnInsert)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnInsert)
+                    .addComponent(btnUpdate)
+                    .addComponent(btnDelete))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(27, Short.MAX_VALUE))
@@ -133,12 +161,40 @@ public final class FormJurusan extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Gagal simpan! "+e);
         }
     }//GEN-LAST:event_btnInsertActionPerformed
-
+    
+    private int getId;
     private void tblJurusanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblJurusanMouseClicked
         int row = tblJurusan.getSelectedRow();
+//        getId = (int) tblJurusan.getValueAt(row, 2);
+        getId = Integer.parseInt(tblJurusan.getValueAt(row, 0).toString());
+//        String s = tblJurusan.getValueAt(row, 2).toString();
         txtKode.setText(tblJurusan.getValueAt(row, 2).toString());
         txtNama.setText(tblJurusan.getValueAt(row, 1).toString());
+//        System.out.println( txtKode.getText().toString(), txtNama.getText().toString());
+//        System.out.println( tblJurusan.getValueAt(row, 2).toString()); // bisa
+        System.out.println( getId+"_"+ txtKode.getText());
+//        System.out.println(Integer.toString(getId));
     }//GEN-LAST:event_tblJurusanMouseClicked
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        try {
+            JurusanModel.delete(getId);
+            showTable();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Gagal delete! "+e);
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        try {
+            JurusanModel.update(getId, txtKode.getText(), txtNama.getText());
+            showTable();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Gagal update! "+e);
+        }
+            
+        
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
     /**
      * @param args the command line arguments
@@ -176,7 +232,9 @@ public final class FormJurusan extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnInsert;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;

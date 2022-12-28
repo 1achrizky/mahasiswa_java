@@ -19,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
  * @author hp4420s
  */
 public class JurusanModel {
+    public static Connection cnn;
     public static Statement stmt;
     public static ResultSet rs;
     public static ResultSet rsAll;
@@ -69,6 +70,7 @@ public class JurusanModel {
             String sql = "SELECT * FROM jurusan_m";
             stmt = cn.createStatement();
             rs = stmt.executeQuery(sql);
+//            cn.close(); // error kalau di beri close()
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, e);
         }
@@ -153,6 +155,46 @@ public class JurusanModel {
             cn.close();
         } catch (HeadlessException | SQLException e) {
 //            Logger.getLogger(FormMhs.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, e);
+        }
+        return pst;
+    }
+    
+//    public void update(int id, String kodeJurusan, String namaJurusan){
+    public static PreparedStatement update(int id, String kodeJurusan, String namaJurusan){
+        try {
+            Connection cn = (Connection)config.configDB();
+
+            String sql = "UPDATE jurusan_m SET "
+                    + "kodeJurusan=?,"
+                    + "namaJurusan=? WHERE id=?";
+            pst = cn.prepareStatement(sql);
+            pst.setString(1, kodeJurusan);
+            pst.setString(2, namaJurusan);
+            pst.setInt(3, id);
+            pst.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null, "Update Berhasil");
+            cn.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        return pst;
+    }
+    
+    
+    public static PreparedStatement delete(int id){
+        try {
+            Connection cn = (Connection)config.configDB();
+
+            String sql = "DELETE FROM jurusan_m WHERE id=?";
+            pst = cn.prepareStatement(sql);
+            pst.setInt(1, id);
+            pst.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null, "Delete Berhasil");
+            cn.close();
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         }
         return pst;
